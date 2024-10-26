@@ -1,0 +1,6 @@
+{% autoescape off %} Bonjour {{ user.email }}, Veuillez activer votre compte en
+cliquant sur le lien suivant :
+<a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}"
+  >Activer mon compte</a
+>
+{% endautoescape %}

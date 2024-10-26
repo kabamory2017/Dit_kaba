@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Connecteo{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'frontend/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Connecteo</h1>
+        <button class="navbar" onclick="toggleMenu()">☰</button>
+        <nav>
+            <ul id="menu">
+                <li><a href="{% url 'posts:post_list' %}">Posts</a></li>
+                <li><a href="{% url 'user_list' %}">utilisateurs</a></li>
+                
+
+                {% if user.is_authenticated %}
+                 
+                 <li><a href="{% url 'posts:post_create' %}">Créer un Post</a></li>
+                  <li><a href="{% url 'posts:user_search' %}">Recherche d'Utilisateurs</a></li>
+                <li><a href="{% url 'posts:post_search' %}">Recherche de Posts</a></li>
+                 
+                 <li class="nav-item">
+    <a href="{% url 'posts:notification_list' %}">
+       
+        {% if unread_notifications_count > 0 %}
+         Notifications 
+            <span class="badge">{{ unread_notifications_count }}</span>
+        {% else %}
+            <span>Aucune nouvelle notification</span>
+        {% endif %}
+    </a>
+</li>
+            
+                    {% comment %} <li><a href="{% url 'profile' user_id=user.id %}">Mon profil</a></li> {% endcomment %}
+                    <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+                    
+                    <!-- Affichage de la photo de profil -->
+                    <li class="profile-pic-container">
+                        <a href="{% url 'profile' user_id=user.id %}">
+                            {% if user.profile.profile_picture %}
+                                <img src="{{ user.profile.profile_picture.url }}" alt="Photo de Profil" class="profile-pic">
+                            {% else %}
+                                <img src="{% static 'frontend/images/default-profile.png' %}" alt="Photo de Profil par défaut" class="profile-pic">
+                            {% endif %}
+                        </a>
+                    </li> 
+                {% else %}
+                    <li><a href="{% url 'login' %}">Connexion</a></li>
+                    <li><a href="{% url 'register' %}">Inscription</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Connecteo. Tous droits réservés.</p>
+    </footer>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

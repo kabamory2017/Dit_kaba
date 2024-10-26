@@ -1,0 +1,20 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Notifications</h1>
+    <ul>
+        {% for notification in notifications %}
+            <li>
+                <strong>Notification :</strong> {{ notification.message }}<br>
+                {% if notification.comment %}  <!-- Vérifier si un commentaire est lié -->
+                    <strong>Commentaire :</strong> "{{ notification.comment.content }}"<br>
+                {% endif %}
+                <small>Posté le : {{ notification.created_at }}</small>
+                <a href="{% url 'posts:read_notification' notification.pk %}">Voir</a> |
+                <a href="{% url 'posts:delete_notification' notification.pk %}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette notification ?');">Supprimer</a>
+            </li>
+        {% empty %}
+            <li>Aucune notification.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

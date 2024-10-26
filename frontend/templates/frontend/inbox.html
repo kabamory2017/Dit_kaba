@@ -1,0 +1,18 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Boîte de réception</h1>
+    <ul>
+        {% for message in messages %}
+            <li>
+                <strong>De :</strong> {{ message.sender }} <br>
+                <strong>À :</strong> {{ message.receiver }} <br>
+                <strong>Message :</strong> {{ message.content }} <br>
+                <small>{{ message.created_at }}</small>
+                <a href="{% url 'posts:delete_message' message.pk %}">Supprimer</a>  <!-- Lien pour supprimer le message -->
+            </li>
+        {% empty %}
+            <li>Aucun message.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

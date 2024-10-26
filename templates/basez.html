@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon site{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'posts:post_list' %}">Accueil</a></li>
+                 <li><a href="{% url 'all_users' %}">utilisateurs</a></li>
+                  <li><a href="{% url 'posts:user_search' %}">Recherche d'Utilisateurs</a></li>
+                <li><a href="{% url 'posts:post_search' %}">Recherche de Posts</a></li>
+                 
+                 <li class="nav-item">
+    <a href="{% url 'posts:notification_list' %}">
+       
+        {% if unread_notifications_count > 0 %}
+         Notifications 
+            <span class="badge">{{ unread_notifications_count }}</span>
+        {% else %}
+            <span>Aucune nouvelle notification</span>
+        {% endif %}
+    </a>
+</li>
+                 
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+                    <li><a href="{% url 'posts:post_create' %}">Create Post</a></li>
+                     
+                      
+                     <li class="nav-item">
+           
+            
+           
+             <a href="{% url 'profile' user_id=user.id %}">
+              <li>
+                    {% if user.profile.profile_picture %}
+                        <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}" class="profile-pic-nav" style="width: 40px; height: 40px; border-radius: 50%;">
+                    {% else %}
+                        <img src="{% static 'default.jpg' %}" alt="default" class="profile-pic-nav" style="width: 40px; height: 40px; border-radius: 50%;">
+                    {% endif %}
+                </li>
+          </li></a>
+          
+                {% else %}
+                    <li><a href="{% url 'login' %}">Connexion</a></li>
+                    <li><a href="{% url 'register' %}">Inscription</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mon site</p>
+    </footer>
+</body>
+</html>

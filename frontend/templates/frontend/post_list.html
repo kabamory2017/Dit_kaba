@@ -1,0 +1,64 @@
+{% extends 'frontend/base.html' %}
+
+
+{% block title %}Liste des Posts - Connecteo{% endblock %}
+
+{% block content %}
+<div class="post-list">
+    <h2>Posts Récents</h2>
+    
+    <!-- Affichage des posts dans une grille responsive -->
+    <div class="posts-grid">
+        {% for post in posts %}
+        <div class="post-card">
+            <h3>{{ post.title }}</h3>
+            <p>Par {{ post.user.pseudo }} - {{ post.created_at|date:"d M Y" }}</p>
+            
+            <!-- Image du post si présente -->
+            {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            {% endif %}
+            
+            <p>{{ post.content|truncatewords:20 }}</p>
+            <div class="post-info">
+                    <span>{{ post.likes_count }} Likes</span> |
+                    <span>{{ post.dislikes_count }} Dislikes</span> |
+                    <span>{{ post.comments_count }} Comments</span>
+                </div>
+            
+            <!-- Bouton pour afficher les détails du post -->
+            <a href="{% url 'posts:post_detail' post.pk %}" class="btn btn-primary">Voir plus</a>
+            
+            <!-- Si l'utilisateur est le créateur du post, afficher les boutons d'édition et de suppression -->
+            {% if post.user == request.user %}
+            <a href="{% url 'posts:post_edit' post.pk %}" class="btn btn-secondary">Modifier</a>
+            <a href="{% url 'posts:post_delete' post.pk %}" class="btn btn-danger">Supprimer</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>Aucun post disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if is_paginated %}
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; première</a>
+            <a href="?page={{ page_obj.previous_page_number }}">précédent</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">suivant</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">dernière &raquo;</a>
+            {% endif %}
+        </span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

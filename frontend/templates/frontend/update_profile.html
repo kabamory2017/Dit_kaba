@@ -1,0 +1,37 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Mettre à jour votre profil</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_bio">Bio :</label>
+            {{ form.bio }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_profile_picture">Photo de profil :</label>
+            {{ form.profile_picture }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_facebook_link">Facebook :</label>
+            {{ form.facebook_link }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_linkedin_link">LinkedIn :</label>
+            {{ form.linkedin_link }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_instagram_link">Instagram :</label>
+            {{ form.instagram_link }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+
+
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% block content %}
+  <h1>{{ profile.user.email }}</h1>
+  <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" width="150">
+  <p><strong>Following: </strong>{{ profile.followers.count }}</p>
+  <p><strong>Follower: </strong>{{ profile.following.count }}</p>
+  <h3>Social Links:</h3>
+<ul>
+  {% if profile.facebook_link %}
+  <li><a href="{{ profile.facebook_link }}" target="_blank">FaceBook</a></li>
+  {% endif %}
+  
+  {% if profile.linkedin_link %}
+  <li><a href="{{ profile.linkedin_link  }}" target="_blank">LinkedIn</a></li>
+  {% endif %}
+  
+  {% if profile.instagram_link %}
+  <li><a href="{{ profile.instagram_link }}" target="_blank">Instagram</a></li>
+  {% endif %}
+</ul>
+
+
+ {% if profile.user == request.user %}
+  <h2>People Following You:</h2>
+  <ul>
+    {% for following_profile in profile.following.all %}
+      <li>{{ following_profile.user.email }}</li>
+    {% empty %}
+      <li>You are not following anyone yet.</li>
+    {% endfor %}
+    
+     <li><a href="{% url 'posts:send_message' %}">Envoyer un Message</a></li>
+            <li><a href="{% url 'posts:inbox' %}">Boîte de Réception</a></li>
+              <li><a href="{% url 'update_profile' %}">Mettre à jour mon profil</a></li>
+               <a class="nav-link" href="{% url 'change_password' %}">Changer le mot de passe</a>
+         
+  </ul>
+      
+
+  <h2>People You Are Following:</h2>
+  <ul>
+    {% for follower_profile in profile.followers.all %}
+      <li>{{ follower_profile.user.email }}</li>
+    {% empty %}
+      <li>No one is following you yet.</li>
+    {% endfor %}
+  </ul>
+  {% endif %}  
+
+  <p>{{ profile.bio }}</p>
+    {% if user.is_authenticated %}
+ {% if profile.user != request.user %}
+  {% if is_following %}
+    <form action="{% url 'unfollow_user' profile.user.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Unfollow</button>
+    </form>
+  {% else %}
+    <form action="{% url 'follow_user' profile.user.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Follow</button>
+    </form>
+  {% endif %}
+  {% endif %}
+  {% endif %}
+
+{% endblock %}

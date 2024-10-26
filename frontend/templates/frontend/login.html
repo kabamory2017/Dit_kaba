@@ -1,0 +1,51 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+  <h2>Se connecter</h2>
+  <div class="container">
+  
+    <!-- Affichage des messages d'erreur/success -->
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Champ Email -->
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Email</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="invalid-feedback">
+            {% for error in form.username.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Champ Mot de passe -->
+      <div class="form-group">
+        <label for="{{ form.password.id_for_label }}">Mot de passe</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <div class="invalid-feedback">
+            {% for error in form.password.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Bouton de soumission -->
+      <button type="submit" class="btn btn-primary">Se connecter</button>
+    </form>
+  </div>
+
+  <p>Pas encore de compte ? <a href="{% url 'register' %}">Inscrivez-vous ici</a>.</p>
+{% endblock %}

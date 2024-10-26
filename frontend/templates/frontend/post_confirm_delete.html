@@ -1,0 +1,10 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+  <h2>Are you sure you want to delete this post?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete it</button>
+  </form>
+  <a href="{% url 'posts:post_list' %}">Cancel</a>
+{% endblock %}

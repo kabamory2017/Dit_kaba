@@ -1,0 +1,22 @@
+{% extends 'frontend/base.html' %}{% block content %}
+<div class="container">
+  <h2>Ajouter un Commentaire</h2>
+  <form method="post">
+    {% csrf_token %}
+    <textarea
+      name="content"
+      rows="4"
+      class="form-control"
+      placeholder="Votre commentaire..."
+    ></textarea>
+    <button type="submit" class="btn btn-success">Commenter</button>
+  </form>
+  <hr />
+  <h3>Commentaires</h3>
+  <ul>
+    {% for comment in post.comments.all %}
+    <li>{{ comment.author.email }}: {{ comment.content }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'frontend/base.html' %}
+
+
+{% block title %}Créer un Post - Connecteo{% endblock %}
+
+{% block content %}
+<div class="post-create">
+    <h2>Créer un Nouveau Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Titre du post -->
+        <div class="form-group">
+            <label for="id_title">Titre</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="form-error">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Contenu du post -->
+        <div class="form-group">
+            <label for="id_content">Contenu</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+                <div class="form-error">{{ form.content.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Image du post -->
+        <div class="form-group">
+            <label for="id_image">Image (facultatif)</label>
+            {{ form.image }}
+            {% if form.image.errors %}
+                <div class="form-error">{{ form.image.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button type="submit">Publier</button>
+    </form>
+
+    <!-- Lien pour retourner à la liste des posts -->
+    <a href="{% url 'posts:post_list' %}">Retour à la liste des posts</a>
+</div>
+{% endblock %}

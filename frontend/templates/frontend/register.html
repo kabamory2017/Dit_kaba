@@ -1,0 +1,49 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Inscription</h2>
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ form.email.errors }}
+            <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="id_pseudo">Pseudo</label>
+            {{ form.pseudo.errors }}
+            <input type="text" name="pseudo" id="id_pseudo" class="form-control" value="{{ form.pseudo.value|default:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="id_password1">Mot de passe</label>
+            {{ form.password1.errors }}
+            <input type="password" name="password1" id="id_password1" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="id_password2">Confirmer le mot de passe</label>
+            {{ form.password2.errors }}
+            <input type="password" name="password2" id="id_password2" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+
+    <p>Déjà un compte ? <a href="{% url 'login' %}">Connectez-vous ici</a>.</p>
+</div>
+{% endblock %}

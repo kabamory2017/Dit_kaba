@@ -1,0 +1,15 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Confirmer la suppression</h1>
+    <p>Êtes-vous sûr de vouloir supprimer ce message ?</p>
+    <p><strong>De :</strong> {{ object.sender }} <br>
+       <strong>À :</strong> {{ object.receiver }} <br>
+       <strong>Message :</strong> {{ object.content }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmer la suppression</button>
+    </form>
+    <a href="{% url 'posts:inbox' %}">Annuler</a>  <!-- Lien pour annuler -->
+{% endblock %}

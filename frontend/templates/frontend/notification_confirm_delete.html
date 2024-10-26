@@ -1,0 +1,15 @@
+<!-- posts/templates/posts/notification_confirm_delete.html -->
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Confirmer la suppression</h1>
+    <p>Êtes-vous sûr de vouloir supprimer cette notification ?</p>
+    <strong>{{ notification.message }}</strong><br>
+    <small>Posté le : {{ notification.created_at }}</small><br>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmer</button>
+        <a href="{% url 'posts:notification_list' %}">Annuler</a>
+    </form>
+{% endblock %}

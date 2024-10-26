@@ -1,0 +1,18 @@
+<!-- post_search.html -->
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Recherche de Posts</h1>
+    <form method="GET">
+        {{ form.as_p }}
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <ul>
+        {% for post in posts %}
+            <li>{{ post.content }} - Posté par {{ post.user.username }}</li>
+        {% empty %}
+            <li>Aucun post trouvé.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

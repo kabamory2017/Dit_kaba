@@ -1,0 +1,85 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Détails du Post - {{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="post-detail">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        {% endif %}
+        
+        <div class="post-interactions">
+            <div>
+                <strong>Likes:</strong> {{ likes_count }} 
+                <strong>Dislikes:</strong> {{ dislikes_count }}
+            </div>
+            <div>
+                {% if user_liked is not None %}
+                    {% if user_liked %}
+                        <p>Vous avez aimé ce post.</p>
+                    {% else %}
+                        <p>Vous n'avez pas aimé ce post.</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'posts:like_dislike_toggle' post.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="is_like" value="true">
+    <button type="submit">
+        {% if user_liked == True %}
+            Cancel Like
+        {% else %}
+            Like
+        {% endif %}
+    </button>
+</form>
+
+<!-- Formulaire de Dislike -->
+<form method="post" action="{% url 'posts:like_dislike_toggle' post.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="is_like" value="false">
+    <button type="submit">
+        {% if user_liked == False %}
+            Cancel Dislike
+        {% else %}
+            Dislike
+        {% endif %}
+    </button>
+</form>
+ {% endif %}
+
+        <h3>Commentaires</h3>
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                    <p><strong>{{ comment.user.email }}</strong>: {{ comment.content }}</p>
+                </div>
+                {% if comment.user == request.user %}
+        <form method="post" action="{% url 'posts:comment_delete' comment.id %}">
+            {% csrf_token %}
+            <button type="submit" class="">Delete</button>
+        </form>
+    {% endif %}
+            {% empty %}
+                <p>Aucun commentaire pour ce post.</p>
+                
+            {% endfor %}
+        </div>
+ {% if user.is_authenticated %}
+        <h4>Ajouter un commentaire</h4>
+        <form action="{% url 'posts:comment_create' post.id %}" method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Envoyer</button>
+        </form>
+        
+         {% endif %}
+    </div>
+
+    <a href="{% url 'posts:post_list' %}">Retour à la liste des posts</a>
+{% endblock %}

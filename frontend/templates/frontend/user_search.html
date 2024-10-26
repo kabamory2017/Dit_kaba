@@ -1,0 +1,20 @@
+<!-- user_search.html -->
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Recherche d'Utilisateurs</h1>
+    
+    <form method="get" action="{% url 'posts:user_search' %}">
+        {{ form.as_p }}  <!-- Affiche le formulaire -->
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <h2>Résultats de la recherche</h2>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.pseudo }}</li>  <!-- Affiche le pseudo de l'utilisateur -->
+        {% empty %}
+            <li>Aucun utilisateur trouvé.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

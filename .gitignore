@@ -1,0 +1,63 @@
+# Environnements virtuels
+venv/
+env/
+*/venv/
+*/env/
+
+# Configuration des environnements
+*.env
+.env.*
+
+# Paramètres et fichiers de configuration sensibles
+secret_key.txt
+*.pem
+
+# Fichiers compilés Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Migration Django
+db.sqlite3
+*.sqlite3
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Fichiers de migrations générés par Django
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Static files
+staticfiles/
+static/
+media/
+mediafiles/
+
+# Caches et fichiers temporaires
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.swp
+*.swo
+*.DS_Store
+
+# JetBrains IDE
+.idea/
+
+# VS Code
+.vscode/
+
+# Autres
+*.bak
+*.orig
+*.old
+
+# Fichiers générés par le système
+*.DS_Store
+Thumbs.db
+ehthumbs.db
